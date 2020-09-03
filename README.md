@@ -25,11 +25,32 @@ Configuration file settings:
 ```ini
   usb_device = "1050:0407"
   monitor_input = "Hdmi1"
+  monitor_description = ""
 ```
 
 `usb_device` is which USB device to watch (vendor id / device id in hex), and `monitor_input` is which monitor input
 to switch to, when this device is connected. Supported values are `Hdmi1`, `Hdmi2`, `DisplayPort1`, `DisplayPort2`
 If your monitor has an USB-C port, it's usually reported as `DisplayPort2`
+
+If you have a laptop with a display that doesn't use I2C, you'll get errors from display_switch. Fill in a value for `monitor_description` with the name of the monitor to switch.
+
+### Sample configuration
+
+I have a Razer mouse and a Dell monitor. My desktop is only connected to the Dell monitor so its configuration is:
+
+```ini
+usb_device="1532:0029"
+monitor_input="Hdmi1"
+monitor_description=""
+```
+
+My laptop is plugged into HDMI2. The laptop's own display doesn't support I2C or DDC so the configuration I use on the laptop is this:
+
+```ini
+usb_device="1532:0029"
+monitor_input="Hdmi2"
+monitor_description="Dell S3220DGF"
+```
 
 ## Logging
 

@@ -23,18 +23,26 @@ pub enum InputSource {
     Hdmi2 = 0x12,
 }
 
-pub fn log_current_source() -> Result<()> {
+fn in_scope(current: String, restriction: &String) -> bool {
+    return restriction.is_empty() || current.starts_with(&restriction.as_str()); 
+}
+
+pub fn log_current_source(which: &String) -> Result<()> {
     for mut ddc in Monitor::enumerate()? {
-        let source = ddc.get_vcp_feature(INPUT_SELECT)?.value();
-        info!("Monitor '{:?}' is currently set to 0x{:x}", ddc, source);
+        if in_scope(ddc.description(), which) {
+            let source = ddc.get_vcp_feature(INPUT_SELECT)?.value();
+            info!("Monitor '{:?}' is currently set to 0x{:x}", ddc, source);
+        }
     }
     Ok(())
 }
 
-pub fn switch_to(source: InputSource) -> Result<()> {
+pub fn switch_to(which: &String, source: InputSource) -> Result<()> {
     for mut ddc in Monitor::enumerate()? {
-        info!("Setting monitor '{:?}' to {:?}", ddc, source);
-        ddc.set_vcp_feature(INPUT_SELECT, source as u16)?;
+        if in_scope(ddc.description(), which) {
+            info!("Setting monitor '{:?}' to {:?}", ddc, source);
+            ddc.set_vcp_feature(INPUT_SELECT, source as u16)?;
+        }
     }
     Ok(())
 }
