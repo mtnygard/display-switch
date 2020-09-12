@@ -24,7 +24,7 @@ pub enum InputSource {
 }
 
 fn in_scope(current: String, restriction: &String) -> bool {
-    return restriction.is_empty() || current.starts_with(&restriction.as_str()); 
+    return restriction.is_empty() || current.starts_with(restriction);
 }
 
 pub fn log_current_source(which: &String) -> Result<()> {
