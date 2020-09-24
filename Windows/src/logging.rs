@@ -11,6 +11,7 @@ use simplelog::*;
 use crate::configuration::Configuration;
 
 pub fn init_logging() -> Result<()> {
+    log_panics::init();
     Ok(CombinedLogger::init(vec![
         TermLogger::new(LevelFilter::Debug, Config::default(), TerminalMode::Mixed),
         WriteLogger::new(
