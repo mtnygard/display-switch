@@ -1,0 +1,14 @@
+[Unit]
+Description=Switch display in response to USB hotplug events
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=mtnygard
+ExecStart=/usr/local/bin/display_switch
+
+[Install]
+WantedBy=multi-user.target
